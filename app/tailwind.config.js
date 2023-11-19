@@ -3,7 +3,7 @@ export default {
 	theme: {
 		extend: {
 			fontFamily: {
-				'sans': ['monospace'],
+				'mono': ['monospace'],
 			},
 		},
 	},

@@ -1,14 +1,31 @@
 <template>
     <div class="flex flex-col h-full">
-        <div class="px-16 py-8 bg-[#070707] border-b border-neutral-300">
-            <p class="text-3xl tracking-widest text-neutral-300 cursor-default">Student Arrivals</p>
+        <div class="flex justify-between px-16 py-8 bg-[#070707] border-b border-neutral-300">
+            <span class="text-3xl tracking-wider text-neutral-300 cursor-default">Student Arrivals</span>
+            <button v-if="isLoggedIn" @click="logout()" class="px-4 pb-1 pt-1 rounded text-neutral-300 bg-transparent hover:bg-red-500 border border-neutral-300 hover:border-transparent text-base transition">Log out</button>
         </div>
         <router-view></router-view>
     </div>
 </template>
 
 <script>
-export default {}
+export default {
+    computed: {
+        isLoggedIn() {
+            return localStorage.getItem('myoctober_backend_user_token') ? true : false;
+        }
+    },
+    methods: {
+        logout() {
+            localStorage.removeItem('myoctober_backend_user_token');
+            this.goTo('login');
+            this.$forceUpdate();
+        },
+        goTo(path) {
+            this.$router.replace({ path })
+        },
+    }
+}
 </script>
 
 <style>
