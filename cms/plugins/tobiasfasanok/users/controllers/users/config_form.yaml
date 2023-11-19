@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: User
+
+# Model Form Field configuration
+form: $/tobiasfasanok/users/models/user/fields.yaml
+
+# Model Class name
+modelClass: Tobiasfasanok\Users\Models\User
+
+# Default redirect location
+defaultRedirect: tobiasfasanok/users/users
+
+# Create page
+create:
+    title: backend::lang.form.create_title
+    redirect: tobiasfasanok/users/users/update/:id
+    redirectClose: tobiasfasanok/users/users
+
+# Update page
+update:
+    title: backend::lang.form.update_title
+    redirect: tobiasfasanok/users/users
+    redirectClose: tobiasfasanok/users/users
+
+# Preview page
+preview:
+    title: backend::lang.form.preview_title

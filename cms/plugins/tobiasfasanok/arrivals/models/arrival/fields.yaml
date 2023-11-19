@@ -1,0 +1,19 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    user_id:
+        label: User ID
+        required: true
+        type: number
+        attributes:
+            style: 'text-align:left'
+    user_name:
+        label: User Name
+        required: true
+        type: text
+    date:
+        label: Date
+        required: true
+        type: datepicker

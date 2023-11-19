@@ -1,0 +1,6 @@
+plugin:
+    name: 'tobiasfasanok.users::lang.plugin.name'
+    description: 'tobiasfasanok.users::lang.plugin.description'
+    author: 'Tobiáš Fašanok'
+    icon: oc-icon-child
+    homepage: ''

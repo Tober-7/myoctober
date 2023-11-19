@@ -1,0 +1,19 @@
+# ===================================
+#  List Column Definitions
+# ===================================
+
+columns:
+    id:
+        label: ID
+        sortable: true
+    user_id:
+        label: User ID
+        searchable: true
+    user_name:
+        label: User Name
+        searchable: true
+        sortable: true
+    date:
+        label: Date
+        searchable: true
+        sortable: true

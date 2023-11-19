@@ -1,0 +1,6 @@
+plugin:
+    name: 'tobiasfasanok.arrivals::lang.plugin.name'
+    description: 'tobiasfasanok.arrivals::lang.plugin.description'
+    author: 'Tobiáš Fašanok'
+    icon: oc-icon-calendar
+    homepage: ''
