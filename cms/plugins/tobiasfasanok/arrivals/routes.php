@@ -21,9 +21,9 @@ Route::prefix('api/v1')->group(function () {
     Route::delete('/arrivals/{arrival}', function (int $id) {
         $user = Arrival::find($id);
 
-        if (!$user) return "Arrival entry with this id ({$id}) does not exist.";
+        if (!$user) return ["data" => "Arrival entry with this id ({$id}) does not exist.", "status" => 500];
 
-        echo "Arrival entry deleted successfully!";
+        // echo ["data" => "Arrival entry deleted successfully!", "status" => 200];
         Arrival::destroy($id);
     });
 });
