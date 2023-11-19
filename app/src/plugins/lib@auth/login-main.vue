@@ -63,7 +63,7 @@ export default {
             this.v$.$touch();
 
             if (!this.v$.$invalid) {
-                const token = await axios.get(`http://localhost/myoctober/cms/api/v1/users/login?email=${this.loginEmail}}&password=${this.loginPassword}`);
+                const token = await axios.get(`/api/v1/users/login?email=${this.loginEmail}}&password=${this.loginPassword}`);
                 console.log(token);
             }
         },
