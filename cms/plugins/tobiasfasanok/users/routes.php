@@ -46,6 +46,12 @@ Route::prefix('api/v1')->group(function () {
         $user = User::find($id);
 
         if (!$user) return ["message" => "User with this id ({$id}) does not exist.", "status" => 500];
+        
+        foreach (User::all() as $user) {
+            if ($user->email === $request->email) return ["message" => "User with this e-mail address ({$request->email}) already exists.", "status" => 500];
+            
+            $user->email = $request->email;
+        }
 
         $pass = $request->password;
         $newPass = $request->newPassword;
@@ -58,12 +64,6 @@ Route::prefix('api/v1')->group(function () {
             if ($pass === $newPass) return ["message" => "New password cannot match the old password.", "status" => 500];
 
             $user->password = $request->newPassword;
-        }
-        
-        foreach (User::all() as $user) {
-            if ($user->email === $request->email) return ["message" => "User with this e-mail address ({$request->email}) already exists.", "status" => 500];
-
-            $user->email = $request->email;
         }
 
         $user->name = $request->name;

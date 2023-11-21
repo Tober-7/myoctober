@@ -1,8 +1,11 @@
 <template>
     <div class="flex flex-col h-full">
         <div class="flex justify-between items-center px-16 h-28 bg-[#070707] border-b border-neutral-300">
-            <button @click="goTo('home')" class="text-4xl tracking-wider text-neutral-300 hover:text-blue-600 transition">{{ $t('app.name') }}</button>
-            <button v-if="isLoggedIn" @click="profile()" class="p-3 rounded text-neutral-300 bg-transparent hover:bg-blue-600 border border-neutral-300 hover:border-transparent text-base transition"><img src="@/assets/icons/person-outline.svg" class="w-4"></button>
+            <div class="flex items-center">
+                <img src="@/assets/icons/logo.png" class="w-11 h-11 mr-6">
+                <button @click="goTo('home')" class="text-4xl tracking-wider text-neutral-300 hover:text-blue-600 transition">{{ $t('app.name') }}</button>
+            </div>
+            <button v-if="isLoggedIn" @click="profile()" class="p-2 rounded text-neutral-300 bg-transparent hover:bg-blue-600 border border-neutral-300 hover:border-transparent text-base transition"><img src="@/assets/icons/account.png" class="w-6"></button>
         </div>
         <router-view @set-is-logged-in="(value) => setIsLoggedIn(value)"></router-view>
     </div>

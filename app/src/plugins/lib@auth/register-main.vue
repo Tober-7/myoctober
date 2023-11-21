@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col justify-center items-center h-full">
-        <div class="flex flex-col justify-center items-center w-1/2 p-16 bg-[#070707] border-2 rounded-3xl border-neutral-300">
+        <div class="flex flex-col justify-center items-center min-w-[900px] p-16 bg-[#070707] border-2 rounded-3xl border-neutral-300">
             <div class="flex flex-col">
                 <span class="mb-2 text-2xl text-neutral-300 cursor-default">{{ $t("auth.titles.register") }}</span>
             </div>

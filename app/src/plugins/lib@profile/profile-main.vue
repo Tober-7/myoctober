@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col justify-start items-center h-full px-16">
+    <div class="flex flex-col justify-start items-center min-w-[800px] h-full px-16">
         <template v-if="accountId">
             <div class="flex flex-col w-full py-8">
                 <div class="flex justify-between w-full pb-8">
