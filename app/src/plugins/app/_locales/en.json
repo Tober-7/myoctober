@@ -1,0 +1,51 @@
+{
+    "app": {
+        "name": "Student Arrivals"
+    },
+    "account": {
+        "titles": { 
+            "title": "Account",
+            "change": "Change account details",
+            "delete": "Delete account permanently"
+        },
+        "buttons": {
+            "logout": "Log out",
+            "updateAccount": "Confirm changes",
+            "deleteAccount": "Delete Account"
+        }
+    },
+    "auth": {
+        "titles": {
+            "login": "Login",
+            "register": "Register",
+            "accountExists": "Already have an account?",
+            "noAccount": "Don't have an account?"
+        },
+        "placeholders": {
+            "name": "your full name...",
+            "email": "your e-mail address...",
+            "password": "your password...",
+            "confirmationPassword": "your password again...",
+            "newPassword": "your new password...",
+            "confirmationNewPassword": "your new password again..."
+        },
+        "buttons": {
+            "login": "Log in",
+            "register": "Create Account"
+        },
+        "fields": {
+            "name": "Full Name",
+            "email": "E-mail",
+            "password": "Password",
+            "confirmationPassword": "Confirmation Password",
+            "newPassword": "New Password"
+        },
+        "errors": {
+            "required": "This field is required",
+            "email": "This field must be a valid e-mail",
+            "minLength": "This field must be at least 8 characters long",
+            "sameAsPassword": "This field must match the password",
+            "sameAsNewPassword": "This field must match the new password"
+        }
+    }
+}

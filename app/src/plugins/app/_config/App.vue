@@ -1,30 +1,36 @@
 <template>
     <div class="flex flex-col h-full">
-        <div class="flex justify-between px-16 py-8 bg-[#070707] border-b border-neutral-300">
-            <span class="text-3xl tracking-wider text-neutral-300 cursor-default">Student Arrivals</span>
-            <button v-if="isLoggedIn" @click="logout()" class="px-4 pb-1 pt-1 rounded text-neutral-300 bg-transparent hover:bg-red-500 border border-neutral-300 hover:border-transparent text-base transition">Log out</button>
+        <div class="flex justify-between items-center px-16 h-28 bg-[#070707] border-b border-neutral-300">
+            <button @click="goTo('home')" class="text-4xl tracking-wider text-neutral-300 hover:text-blue-600 transition">{{ $t('app.name') }}</button>
+            <button v-if="isLoggedIn" @click="profile()" class="p-3 rounded text-neutral-300 bg-transparent hover:bg-blue-600 border border-neutral-300 hover:border-transparent text-base transition"><img src="@/assets/icons/person-outline.svg" class="w-4"></button>
         </div>
-        <router-view></router-view>
+        <router-view @set-is-logged-in="(value) => setIsLoggedIn(value)"></router-view>
     </div>
 </template>
 
 <script>
 export default {
-    computed: {
-        isLoggedIn() {
-            return localStorage.getItem('myoctober_backend_user_token') ? true : false;
+    data() {
+        return {
+            isLoggedIn: false,
         }
     },
+
     methods: {
-        logout() {
-            localStorage.removeItem('myoctober_backend_user_token');
-            this.goTo('login');
-            this.$forceUpdate();
+        profile() {
+            this.goTo('profile');
+        },
+        setIsLoggedIn(value) {
+            this.isLoggedIn = value ? true : false;
         },
         goTo(path) {
             this.$router.replace({ path })
         },
-    }
+    },
+
+    mounted() {
+        this.setIsLoggedIn(localStorage.getItem('myoctober_backend_user_token'));
+    },
 }
 </script>
 
@@ -44,6 +50,7 @@ input:-webkit-autofill:focus,
 input:-webkit-autofill:active{
     -webkit-text-fill-color: rgb(212 212 212 / 1) !important;
     -webkit-box-shadow: 0 0 0 30px #070707 inset !important;
+    caret-color: rgb(212 212 212 / 1);
 }
 
 </style>

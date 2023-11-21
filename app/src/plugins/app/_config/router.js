@@ -2,6 +2,10 @@ import { createRouter, createWebHashHistory } from "vue-router"
 
 const routes = [
 	{
+		path: '/',
+		name: 'Root',
+	},
+	{
 		path: '/login',
 		name: 'Login',
 		component: () => import('@/plugins/lib@auth/login-main.vue'),
@@ -18,8 +22,15 @@ const routes = [
 		meta: { requiresAuth: true },
 	},
 	{
+		path: '/profile',
+		name: 'Profile',
+		component: () => import('@/plugins/lib@profile/profile-main.vue'),
+		meta: { requiresAuth: true },
+	},
+	{
 		path: '/:catchAll(.*)',
 		name: 'NotFound',
+		component: () => import('@/plugins/lib@not-found/not-found.vue'),
 	}
 ]
 
@@ -30,11 +41,18 @@ const router = createRouter({
 
 router.beforeEach((to, from) => {
 	if (to.meta.requiresAuth === true) {
-		if (!localStorage.getItem('myoctober_backend_user_token')) return { name: from.name || "Login" };
+		if (!isLoggedIn()) return { name: from.name || "Login" };
 	} else {
-		if (to.name === "NotFound") return { name: "Home" };
-		if ((to.name === "Login" || to.name === "Register") && localStorage.getItem('myoctober_backend_user_token')) return false;
+		if (to.name === "Root") {
+			if (!isLoggedIn()) return { name: 'Login' };
+			else return { name: 'Home' };
+		}  
+		if ((to.name === "Login" || to.name === "Register") && isLoggedIn()) return false;
 	}
 })
+
+function isLoggedIn() {
+	return localStorage.getItem('myoctober_backend_user_token') ? true : false;
+}
 
 export default router
