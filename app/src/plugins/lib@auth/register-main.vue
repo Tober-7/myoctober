@@ -91,22 +91,20 @@ export default {
             this.v$.$touch();
 
             if (!this.v$.$invalid) {
-                const res = await axios.post(`/api/v1/users?name=${this.registerForm.name}&email=${this.registerForm.email}&password=${this.registerForm.password}&confirmationPassword=${this.registerForm.confirmationPassword}`);
-
-                if (res.data.status === 200) {
-                    localStorage.setItem('myoctober_backend_user_token', res.data.token);
+                try {
+                    const res = await axios.post(`/api/v1/users?name=${this.registerForm.name}&email=${this.registerForm.email}&password=${this.registerForm.password}&confirmationPassword=${this.registerForm.confirmationPassword}`);
+                    
+                    localStorage.setItem('myoctober_backend_user_token', res.data);
                     this.$emit('setIsLoggedIn', localStorage.getItem('myoctober_backend_user_token'));
                     this.goTo('home');
+                } catch (error) {
+                    this.$toast.error(error.response.data, {position: 'bottom'})
                 }
-                else this.$toast.error(res.data.message, {position: 'bottom'})
             }
         },
         goTo(path) {
             this.$router.replace({ path })
         },
     },
-    updated() {
-        console.log(this.registerForm.email == '');
-    }
 }
 </script>

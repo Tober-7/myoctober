@@ -67,14 +67,15 @@ export default {
             this.v$.$touch();
 
             if (!this.v$.$invalid) {
-                const res = await axios.get(`/api/v1/users?email=${this.loginForm.email}&password=${this.loginForm.password}`);
+                try {
+                    const res = await axios.get(`/api/v1/users?email=${this.loginForm.email}&password=${this.loginForm.password}`);
 
-                if (res.data.status === 200) {
-                    localStorage.setItem('myoctober_backend_user_token', res.data.token);
+                    localStorage.setItem('myoctober_backend_user_token', res.data);
                     this.$emit('setIsLoggedIn', localStorage.getItem('myoctober_backend_user_token'));
                     this.goTo('home');
+                } catch (error) {
+                    this.$toast.error(error.response.data, {position: 'bottom'})
                 }
-                else this.$toast.error(res.data.message, {position: 'bottom'})
             }
         },
         goTo(path) {

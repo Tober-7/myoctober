@@ -120,54 +120,49 @@ export default {
             this.v$.$touch();
 
             if (!this.v$.$invalid) {
-                const res = await axios.put(`/api/v1/users/${this.accountId}?
-                name=${this.profileForm.name}&
-                email=${this.profileForm.email}&
-                password=${this.profileForm.password}&
-                newPassword=${this.profileForm.newPassword}&
-                confirmationPassword=${this.profileForm.confirmationPassword}`);
-
-                if (res.data.status === 200) {
-                    this.$toast.success(res.data.message, {position: 'bottom'});
+                try {
+                    const res = await axios.put(`/api/v1/users/${this.accountId}?name=${this.profileForm.name}&email=${this.profileForm.email}&password=${this.profileForm.password}&newPassword=${this.profileForm.newPassword}&confirmationPassword=${this.profileForm.confirmationPassword}`, {}, this.createRequestConfig());
 
                     this.profileForm.password = '';
                     this.profileForm.newPassword = '';
                     this.profileForm.confirmationPassword = '';
+                    
+                    this.$toast.success(res.data, {position: 'bottom'});
+                } catch (error) {
+                    this.$toast.error(error.response.data, {position: 'bottom'});
                 }
-                else this.$toast.error(res.data.message, {position: 'bottom'});
             }
         },
         async deleteAccount() {
-            let res = await axios.patch(`/api/v1/users/${this.accountId}`); 
+            try {
+                const config = this.createRequestConfig();
+                
+                await axios.patch(`/api/v1/users/${this.accountId}`, {}, config); 
+    
+                localStorage.removeItem('myoctober_backend_user_token');
+                this.$emit('setIsLoggedIn', localStorage.getItem('myoctober_backend_user_token'));
+    
+                const res = await axios.delete(`/api/v1/users/${this.accountId}`, config);
 
-            if (!res.data.status === 200) {
-                this.$toast.error(res.data.message, {position: 'bottom'});
-                return;
+                this.$toast.success(res.data, {position: 'bottom'});
+
+                this.goTo('login');
+            } catch (error) {
+                this.$toast.error(error.response.data, {position: 'bottom'});
             }
-
-            localStorage.removeItem('myoctober_backend_user_token');
-            this.$emit('setIsLoggedIn', localStorage.getItem('myoctober_backend_user_token'));
-
-            res = await axios.delete(`/api/v1/users/${this.accountId}`);
-
-            if (res.data.status === 200) {
-                this.$toast.success(res.data.message, {position: 'bottom'});
-            }
-            else this.$toast.error(res.data.message, {position: 'bottom'});
-
-            this.goTo('login');
         },
         async logout() {
-            const res = await axios.patch(`/api/v1/users/${this.accountId}`);
-
-            if (res.data.status === 200) {
-                this.$toast.success(res.data.message, {position: 'bottom'});
-
+            try {
+                const res = await axios.patch(`/api/v1/users/${this.accountId}`, {}, this.createRequestConfig());
+    
+                this.$toast.success(res.data, {position: 'bottom'});
+    
                 localStorage.removeItem('myoctober_backend_user_token');
                 this.$emit('setIsLoggedIn', localStorage.getItem('myoctober_backend_user_token'));
                 this.goTo('login');
+            } catch (error) {
+                this.$toast.error(error.response.data, {position: 'bottom'});
             }
-            else this.$toast.error(res.data.message, {position: 'bottom'});
         },
 
         getAccoundId() {
@@ -176,14 +171,22 @@ export default {
             return JSON.parse(atob(payload)).user_id;
         },
         async setAccountData() {
-            const accountId = this.getAccoundId()
+            try {
+                const accountId = this.getAccoundId()
+                
+                const { data: accountData } = await axios.get(`api/v1/users/${accountId}`, this.createRequestConfig());
+    
+                this.accountId = accountId;
+                
+                this.profileForm.name = accountData.name;
+                this.profileForm.email = accountData.email;
+            } catch (error) {
+                this.$toast.error(error.response.data);
+            }
+        },
 
-            const { data: { user: accountData } } = await axios.get(`api/v1/users/${accountId}`);
-
-            this.accountId = accountId;
-            
-            this.profileForm.name = accountData.name;
-            this.profileForm.email = accountData.email;
+        createRequestConfig() {
+            return { headers: { Authorization: `Bearer ${localStorage.getItem('myoctober_backend_user_token')}` } };
         },
 
         goTo(path) {

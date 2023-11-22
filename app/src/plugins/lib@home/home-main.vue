@@ -36,22 +36,25 @@ export default {
 
     methods: {
         async addArrival() {
-            const date = new Date();
-            const datetime = `${date.getFullYear()}-${date.getMonth()}-${date.getDay()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-            const res = await axios.post(`/api/v1/users/${this.accountId}/arrivals?date=${datetime}`);
+            try {
+                const date = new Date();
+                const datetime = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes() > 9 ? date.getMinutes() : "0" + date.getMinutes()}:${date.getSeconds() > 9 ? date.getSeconds() : "0" + date.getSeconds()}`;
+                
+                await axios.post(`/api/v1/users/${this.accountId}/arrivals?date=${datetime}`, {}, this.createRequestConfig());
 
-            if (res.data.status === 200) {
                 this.setArrivalsData();
+            } catch (error) {
+                this.$toast.error(error.response.data, {position: 'bottom'});
             }
-            else this.$toast.error(res.data.message, {position: 'bottom'});
         },
         async deleteArrival(arrivalId) {
-            const res = await axios.delete(`/api/v1/users/${this.accountId}/arrivals/${arrivalId}`);
+            try {
+                await axios.delete(`/api/v1/users/${this.accountId}/arrivals/${arrivalId}`, this.createRequestConfig());
 
-            if (res.data.status === 200) {
                 this.setArrivalsData();
+            } catch (error) {
+                this.$toast.error(error.response.data, {position: 'bottom'});
             }
-            else this.$toast.error(res.data.message, {position: 'bottom'});
         },
 
         getAccoundId() {
@@ -60,12 +63,12 @@ export default {
             return JSON.parse(atob(payload)).user_id;
         },
         async setArrivalsData() {
-            this.accountId = this.getAccoundId();
-
-            const res = await axios.get(`/api/v1/users/${this.accountId}/arrivals`);
-
-            if (res.data.status === 200) {
-                this.arrivals = res.data.arrivals;
+            try {
+                this.accountId = this.getAccoundId();
+                
+                const res = await axios.get(`/api/v1/users/${this.accountId}/arrivals`, this.createRequestConfig());
+                
+                this.arrivals = res.data;
 
                 const dates = [];
 
@@ -83,8 +86,9 @@ export default {
                 });
 
                 this.dates = dates;
+            } catch (error) {
+                this.$toast.error(error.response.data, {position: 'bottom'});
             }
-            else this.$toast.error(res.data.message, {position: 'bottom'});
         },
 
         getDateFromArrival(arrival) {
@@ -92,6 +96,10 @@ export default {
         },
         getTimeFromArrival(arrival) {
             return `${arrival.slice(11, 13)}:${arrival.slice(14, 16)}`;
+        },
+
+        createRequestConfig() {
+            return { headers: { Authorization: `Bearer ${localStorage.getItem('myoctober_backend_user_token')}` } };
         },
     },
 
