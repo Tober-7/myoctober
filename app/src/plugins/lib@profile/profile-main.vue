@@ -3,7 +3,7 @@
         <template v-if="accountId">
             <div class="flex flex-col w-full py-8">
                 <div class="flex justify-between w-full pb-8">
-                    <span class="mb-2 text-3xl text-neutral-300 cursor-default">{{ $t("account.titles.title") }}</span>
+                    <span class="text-3xl text-neutral-300 cursor-default">{{ $t("account.titles.title") }}</span>
                     <button @click="logout()" class="px-3 pb-1 pt-1 rounded text-neutral-300 bg-transparent hover:bg-red-500 border border-neutral-300 hover:border-transparent text-base transition">{{ $t("account.buttons.logout") }}</button>
                 </div>
                 
