@@ -22,5 +22,6 @@ class User extends Model
     public $rules = [];
 
     public $timestamps = false;
-    protected $guarded = ['id'];
+
+    protected $fillable = ['name', 'email', 'password', 'token'];
 }

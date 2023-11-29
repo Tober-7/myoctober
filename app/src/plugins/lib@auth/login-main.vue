@@ -68,13 +68,13 @@ export default {
 
             if (!this.v$.$invalid) {
                 try {
-                    const res = await axios.get(`/api/v1/users?email=${this.loginForm.email}&password=${this.loginForm.password}`);
+                    const res = await axios.post(`/api/v1/login?email=${this.loginForm.email}&password=${this.loginForm.password}`);
 
                     localStorage.setItem('myoctober_backend_user_token', res.data);
                     this.$emit('setIsLoggedIn', localStorage.getItem('myoctober_backend_user_token'));
                     this.goTo('home');
                 } catch (error) {
-                    this.$toast.error(error.response.data, {position: 'bottom'})
+                    this.$toast.error(error.response.data.error, {position: 'bottom'})
                 }
             }
         },

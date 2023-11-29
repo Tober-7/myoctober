@@ -13,8 +13,9 @@
     "account": {
         "titles": { 
             "title": "Account",
-            "change": "Change account details",
-            "delete": "Delete account permanently"
+            "changeAccount": "Change account details",
+            "changePassword": "Change account password",
+            "deleteAccount": "Delete account permanently"
         },
         "buttons": {
             "logout": "Log out",
@@ -31,7 +32,7 @@
         },
         "placeholders": {
             "name": "your full name...",
-            "email": "your e-mail address...",
+            "email": "your email address...",
             "password": "your password...",
             "confirmationPassword": "your password again...",
             "newPassword": "your new password...",
@@ -43,14 +44,14 @@
         },
         "fields": {
             "name": "Full Name",
-            "email": "E-mail",
+            "email": "Email",
             "password": "Password",
             "confirmationPassword": "Confirmation Password",
             "newPassword": "New Password"
         },
         "errors": {
             "required": "This field is required",
-            "email": "This field must be a valid e-mail",
+            "email": "This field must be a valid email",
             "minLength": "This field must be at least 8 characters long",
             "sameAsPassword": "This field must match the password",
             "sameAsNewPassword": "This field must match the new password"

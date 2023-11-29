@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col h-full">
-        <div class="flex justify-between items-center px-16 h-28 bg-[#070707] border-b border-neutral-300">
+        <div class="flex justify-between items-center px-16 min-h-[112px] bg-[#070707] border-b border-neutral-300">
             <div class="flex items-center">
                 <img src="@/assets/icons/logo.png" class="w-11 h-11 mr-6">
                 <button @click="goTo('home')" class="text-4xl tracking-wider text-neutral-300 hover:text-blue-600 transition">{{ $t('app.name') }}</button>
@@ -45,6 +45,10 @@ html, body, #app {
     margin: 0;
 
     background-color: #0A0A0A;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 
 input:-webkit-autofill,

@@ -92,13 +92,13 @@ export default {
 
             if (!this.v$.$invalid) {
                 try {
-                    const res = await axios.post(`/api/v1/users?name=${this.registerForm.name}&email=${this.registerForm.email}&password=${this.registerForm.password}&confirmationPassword=${this.registerForm.confirmationPassword}`);
+                    const res = await axios.post(`/api/v1/createUser?name=${this.registerForm.name}&email=${this.registerForm.email}&password=${this.registerForm.password}&confirmationPassword=${this.registerForm.confirmationPassword}`);
                     
                     localStorage.setItem('myoctober_backend_user_token', res.data);
                     this.$emit('setIsLoggedIn', localStorage.getItem('myoctober_backend_user_token'));
                     this.goTo('home');
                 } catch (error) {
-                    this.$toast.error(error.response.data, {position: 'bottom'})
+                    this.$toast.error(error.response.data.error, {position: 'bottom'})
                 }
             }
         },

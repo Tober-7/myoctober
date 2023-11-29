@@ -40,20 +40,20 @@ export default {
                 const date = new Date();
                 const datetime = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes() > 9 ? date.getMinutes() : "0" + date.getMinutes()}:${date.getSeconds() > 9 ? date.getSeconds() : "0" + date.getSeconds()}`;
                 
-                await axios.post(`/api/v1/users/${this.accountId}/arrivals?date=${datetime}`, {}, this.createRequestConfig());
+                await axios.post(`/api/v1/createArrival?date=${datetime}`, {}, this.createRequestConfig());
 
                 this.setArrivalsData();
             } catch (error) {
-                this.$toast.error(error.response.data, {position: 'bottom'});
+                this.$toast.error(error.response.data.error, {position: 'bottom'});
             }
         },
         async deleteArrival(arrivalId) {
             try {
-                await axios.delete(`/api/v1/users/${this.accountId}/arrivals/${arrivalId}`, this.createRequestConfig());
+                await axios.post(`/api/v1/deleteArrival/${arrivalId}`, {}, this.createRequestConfig());
 
                 this.setArrivalsData();
             } catch (error) {
-                this.$toast.error(error.response.data, {position: 'bottom'});
+                this.$toast.error(error.response.data.error, {position: 'bottom'});
             }
         },
 
@@ -66,7 +66,7 @@ export default {
             try {
                 this.accountId = this.getAccoundId();
                 
-                const res = await axios.get(`/api/v1/users/${this.accountId}/arrivals`, this.createRequestConfig());
+                const res = await axios.post(`/api/v1/getArrivals`, {}, this.createRequestConfig());
                 
                 this.arrivals = res.data;
 
@@ -87,7 +87,7 @@ export default {
 
                 this.dates = dates;
             } catch (error) {
-                this.$toast.error(error.response.data, {position: 'bottom'});
+                this.$toast.error(error.response.data.error, {position: 'bottom'});
             }
         },
 
