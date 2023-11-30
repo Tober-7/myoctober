@@ -22,5 +22,10 @@ class Arrival extends Model
     public $rules = [];
 
     public $timestamps = false;
-    protected $guarded = ['id'];
+
+    protected $fillable = ['user_id', 'user_name', 'date'];
+
+    public $belongsTo = [
+        'user' => 'Tobiasfasanok\Users\Models\User',
+    ];
 }

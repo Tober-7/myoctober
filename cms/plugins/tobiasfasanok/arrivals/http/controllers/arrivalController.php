@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Request;
 
-use Tobiasfasanok\Users\Models\User;
 use Tobiasfasanok\Arrivals\Models\Arrival;
 
 use Tobiasfasanok\Users\Classes\Auth;
@@ -22,9 +21,10 @@ class ArrivalController {
         $token = $request->bearerToken();
 
         $user_id = Auth::readJWT($token);
-        $user = User::find($user_id);
 
-        return response(Arrival::create(['user_id' => $user_id, 'user_name' => $user->name, 'date' => $request->date]), 200);
+        $arrival = Arrival::create(['user_id' => $user_id, 'date' => $request->date]);
+        
+        return response($arrival, 200);
     }
 
     public function delete(int $id, Request $request) {

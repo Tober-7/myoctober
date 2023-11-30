@@ -5,7 +5,6 @@ use Exception;
 use Validator;
 
 use Tobiasfasanok\Users\Models\User;
-use Tobiasfasanok\Arrivals\Models\Arrival;
 
 use Tobiasfasanok\Users\Classes\Auth;
 use Tobiasfasanok\Users\Classes\Validation;
@@ -185,7 +184,7 @@ class UserController {
         $id = Auth::readJWT($token);
         $user = User::find($id);
 
-        Arrival::where('user_id', $id)->delete();
+        $user->arrivals()->where('user_id', $id)->delete();
         $user->delete();
 
         return response("User deleted successfully!", 200);
