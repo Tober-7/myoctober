@@ -65,7 +65,7 @@ class UserController {
             ],
             [
                 'name' => 'required',
-                'email' => 'required|email|unique:tobiasfasanok_users_users,email',
+                'email' => 'required|email|unique:tobiasfasanok_users,email',
                 'password' => 'required|min:8',
                 'confirmationPassword' => 'same:password',
             ],
@@ -127,7 +127,7 @@ class UserController {
             ],
             [
                 'name' => 'required',
-                'email' => 'required|email|unique:tobiasfasanok_users_users,email',
+                'email' => 'required|email|unique:tobiasfasanok_users,email',
             ],
             Validation::messages
         );
@@ -161,8 +161,8 @@ class UserController {
                 'confirmationPassword' => $conPass,
             ],
             [
-                'password' => "required|min:8|exists:tobiasfasanok_users_users,password,id,{$id}",
-                'newPassword' => "required|min:8|unique:tobiasfasanok_users_users,password,NULL,id,id,{$id}",
+                'password' => "required|min:8|exists:tobiasfasanok_users,password,id,{$id}",
+                'newPassword' => "required|min:8|unique:tobiasfasanok_users,password,NULL,id,id,{$id}",
                 'confirmationPassword' => 'same:newPassword',
             ],
             Validation::messages

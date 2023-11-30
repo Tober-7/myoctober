@@ -1,2 +1,5 @@
 v1.0.1:
     - 'Initialize plugin'
+v1.0.2:
+    - 'Created table tobiasfasanok_arrivals'
+    - table_create_tobiasfasanok_arrivals.php

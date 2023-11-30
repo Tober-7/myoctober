@@ -14,7 +14,7 @@ class Arrival extends Model
     /**
      * @var string table name
      */
-    public $table = 'tobiasfasanok_arrivals_arrivals';
+    public $table = 'tobiasfasanok_arrivals';
 
     /**
      * @var array rules for validation

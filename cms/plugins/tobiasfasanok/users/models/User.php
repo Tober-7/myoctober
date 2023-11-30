@@ -14,7 +14,7 @@ class User extends Model
     /**
      * @var string table name
      */
-    public $table = 'tobiasfasanok_users_users';
+    public $table = 'tobiasfasanok_users';
 
     /**
      * @var array rules for validation
