@@ -10,17 +10,13 @@ class Auth {
     public function handle(Request $request, Closure $next) {
         $response = $next($request);
 
-        Auth::checkUser($request->bearerToken());
-
-        return $response;
-    }
-
-    public static function checkUser($token) {
-        $tokenExists = User::where('token', $token);
+        $tokenExists = User::where('token', $request->bearerToken());
 
         if (!$tokenExists) {
             throw new Exception("Invalid authorization token.", 500);
         }
+
+        return $response;
     }
     
     public static function generateJWT($id) {
