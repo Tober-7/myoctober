@@ -116,6 +116,8 @@ export default {
             },
 
             accountId: null,
+
+            canInteract: false,
         }
     },
     validations () {
@@ -136,6 +138,9 @@ export default {
 
     methods: {
         async updateAccount() {
+            if (!this.canInteract) return;
+            this.canInteract = false;
+
             this.v$.profileForm.accountForm.$touch();
 
             if (!this.v$.profileForm.accountForm.$invalid) {
@@ -149,8 +154,13 @@ export default {
                     this.$toast.error(error.response.data.error, {position: 'bottom'});
                 }
             }
+
+            this.canInteract = true;
         },
         async updatePassword() {
+            if (!this.canInteract) return;
+            this.canInteract = false;
+
             this.v$.profileForm.passwordForm.$touch();
 
             if (!this.v$.profileForm.passwordForm.$invalid) {
@@ -168,8 +178,13 @@ export default {
                     this.$toast.error(error.response.data.error, {position: 'bottom'});
                 }
             }
+
+            this.canInteract = true;
         },
         async deleteAccount() {
+            if (!this.canInteract) return;
+            this.canInteract = false;
+
             try {
                 const config = this.createRequestConfig();
                 
@@ -185,9 +200,14 @@ export default {
                 this.goTo('login');
             } catch (error) {
                 this.$toast.error(error.response.data.error, {position: 'bottom'});
+
+                this.canInteract = true;
             }
         },
         async logout() {
+            if (!this.canInteract) return;
+            this.canInteract = false;
+
             try {
                 const res = await axios.post(`/api/v1/logout`, {}, this.createRequestConfig());
     
@@ -198,6 +218,8 @@ export default {
                 this.goTo('login');
             } catch (error) {
                 this.$toast.error(error.response.data.error, {position: 'bottom'});
+
+                this.canInteract = true;
             }
         },
 
@@ -232,6 +254,7 @@ export default {
 
     async mounted() {
         await this.setAccountData();
+        this.canInteract = true;
     },
 }
 </script>

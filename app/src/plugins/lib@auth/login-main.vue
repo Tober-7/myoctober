@@ -51,6 +51,8 @@ export default {
                 email: '',
                 password: '',
             },
+
+            canInteract: true,
         }
     },
     validations () {
@@ -64,6 +66,9 @@ export default {
 
     methods: {
         async login() {
+            if (!this.canInteract) return;
+            this.canInteract = false;
+
             this.v$.$touch();
 
             if (!this.v$.$invalid) {
@@ -77,6 +82,8 @@ export default {
                     this.$toast.error(error.response.data.error, {position: 'bottom'})
                 }
             }
+
+            this.canInteract = true;
         },
         goTo(path) {
             this.$router.replace({ path })

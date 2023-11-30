@@ -31,30 +31,42 @@ export default {
         return {
             accountId: null,
             dates: null,
+
+            canInteract: false,
         }
     },
 
     methods: {
         async addArrival() {
+            if (!this.canInteract) return;
+            this.canInteract = false;
+
             try {
                 const date = new Date();
                 const datetime = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes() > 9 ? date.getMinutes() : "0" + date.getMinutes()}:${date.getSeconds() > 9 ? date.getSeconds() : "0" + date.getSeconds()}`;
                 
                 await axios.post(`/api/v1/createArrival?date=${datetime}`, {}, this.createRequestConfig());
 
-                this.setArrivalsData();
+                await this.setArrivalsData();
             } catch (error) {
                 this.$toast.error(error.response.data.error, {position: 'bottom'});
             }
+
+            this.canInteract = true;
         },
         async deleteArrival(arrivalId) {
+            if (!this.canInteract) return;
+            this.canInteract = false;
+
             try {
                 await axios.post(`/api/v1/deleteArrival/${arrivalId}`, {}, this.createRequestConfig());
 
-                this.setArrivalsData();
+                await this.setArrivalsData();
             } catch (error) {
                 this.$toast.error(error.response.data.error, {position: 'bottom'});
             }
+
+            this.canInteract = true;
         },
 
         getAccoundId() {
@@ -105,6 +117,7 @@ export default {
 
     async mounted() {
         await this.setArrivalsData();
+        this.canInteract = true;
     },
 }
 </script>
