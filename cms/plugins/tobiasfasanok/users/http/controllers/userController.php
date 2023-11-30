@@ -9,6 +9,8 @@ use Tobiasfasanok\Users\Models\User;
 use Tobiasfasanok\Users\Classes\Auth;
 use Tobiasfasanok\Users\Classes\Validation;
 
+use Tobiasfasanok\Users\Http\Resources\UserResource;
+
 class UserController {
     public function login(Request $request) {
         $email = $request->email;
@@ -94,7 +96,7 @@ class UserController {
         $id = Auth::readJWT($token);
         $user = User::find($id);
         
-        $res = ["name" => $user->name, "email" => $user->email];
+        $res = new UserResource($user);
 
         return response($res, 200);
     }
