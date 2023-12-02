@@ -2,6 +2,7 @@
 
 use Illuminate\Routing\Controller;
 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Exception;
 use Validator;
@@ -16,12 +17,12 @@ use Tobiasfasanok\Users\Http\Resources\UserResource;
 class UserController extends Controller {
     public function login(Request $request) {
         $email = $request->email;
-        $password = $request->password;
+        $pass = $request->password;
 
         $loginValidator = Validator::make(
             [
                 'email' => $email,
-                'password' => $password,
+                'password' => $pass,
             ],
             [
                 'email' => 'required|email',
@@ -34,13 +35,11 @@ class UserController extends Controller {
             throw new Exception($loginValidator->messages()->first(), 500);
         }
 
-        $user = User::where('email', $email)
-        ->where('password', $password)
-        ->first();
+        $user = User::where('email', $email)->first();
 
-        if (!$user) {
-            throw new Exception("invalid email or password.", 500);
-        }
+        if (!$user) throw new Exception("user with this email does not exist.");
+
+        if (!Hash::check($pass, $user->password)) throw new Exception("invalid password", 500);
 
         if ($user->token) {
             return response($user->token, 200);
@@ -82,7 +81,7 @@ class UserController extends Controller {
         $user = User::create([
             'name' => $name,
             'email' => $email,
-            'password' => $pass,
+            'password' => Hash::make($pass),
         ]);
 
         $newToken = Auth::generateJWT($user->id);
@@ -164,8 +163,8 @@ class UserController extends Controller {
                 'confirmationPassword' => $conPass,
             ],
             [
-                'password' => "required|min:8|exists:tobiasfasanok_users,password,id,{$id}",
-                'newPassword' => "required|min:8|unique:tobiasfasanok_users,password,NULL,id,id,{$id}",
+                'password' => "required|min:8",
+                'newPassword' => "required|min:8|different:password",
                 'confirmationPassword' => 'same:newPassword',
             ],
             Validation::messages
@@ -174,9 +173,11 @@ class UserController extends Controller {
         if ($updatePasswordValidator->fails()) {
             throw new Exception($updatePasswordValidator->messages()->first(), 500);
         }
+
+        if (!Hash::check($pass, $user->password)) throw new Exception("invalid password", 500);
     
         $user->update([
-            'password' => $newPass,
+            'password' => Hash::make($newPass),
         ]);
 
         return response("User password updated successfully!", 200);
