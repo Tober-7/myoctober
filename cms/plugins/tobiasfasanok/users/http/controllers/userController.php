@@ -1,5 +1,7 @@
 <?php namespace Tobiasfasanok\Users\Http\Controllers;
 
+use Illuminate\Routing\Controller;
+
 use Illuminate\Http\Request;
 use Exception;
 use Validator;
@@ -11,7 +13,7 @@ use Tobiasfasanok\Users\Classes\Validation;
 
 use Tobiasfasanok\Users\Http\Resources\UserResource;
 
-class UserController {
+class UserController extends Controller {
     public function login(Request $request) {
         $email = $request->email;
         $password = $request->password;

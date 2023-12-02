@@ -1,12 +1,14 @@
 <?php namespace Tobiasfasanok\Arrivals\Http\Controllers;
 
+use Illuminate\Routing\Controller;
+
 use Illuminate\Http\Request;
 
 use Tobiasfasanok\Arrivals\Models\Arrival;
 
 use Tobiasfasanok\Users\Classes\Auth;
 
-class ArrivalController {
+class ArrivalController extends Controller {
     public function get(Request $request) {
         $token = $request->bearerToken();
 
